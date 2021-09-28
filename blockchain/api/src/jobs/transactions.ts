@@ -39,7 +39,9 @@ export async function proccessTransactions(context: Context, successCb: any, fai
     const account = Account.fromPrivate(Buffer.from(context.env.privateKey, 'hex'));
     const contractAddress = Address.fromString(context.env.contractAddress);
     const token = new DapsiNFT(eth, contractAddress);
-    const txSend = token.methods.create(account.address, contract.contractId, contract.hash);
+
+    const contractId = contract.contractId.startsWith('0x') ? contract.contractId : `0x${contract.contractId}`;
+    const txSend = token.methods.create(account.address, contractId, contract.hash);
 
     const txParams = {
       from: account.address,
@@ -48,7 +50,7 @@ export async function proccessTransactions(context: Context, successCb: any, fai
       value: 0,
       data: txSend.encodeABI(),
       gas: '250000',
-      gasPrice: '1000000000', // 1 Gwei
+      gasPrice: '2000000000', // 1 Gwei
       chainId: '4' // rinkeby
     };
 
