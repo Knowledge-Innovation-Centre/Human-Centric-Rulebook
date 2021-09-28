@@ -56,7 +56,9 @@ export async function resolve(req: Request, res: Response): Promise<void> {
   const account = Account.fromPrivate(Buffer.from(context.env.privateKey, 'hex'));
   const contractAddress = Address.fromString(context.env.contractAddress);
   const nft = new DapsiNFT(eth, contractAddress);
-  const txSend = nft.methods.revoke(contract.contractId);
+
+  const contractId = contract.contractId.startsWith('0x') ? contract.contractId : `0x${contract.contractId}`;
+  const txSend = nft.methods.revoke(contractId);
 
   const txParams = {
     from: account.address,
