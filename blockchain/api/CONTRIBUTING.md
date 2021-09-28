@@ -38,33 +38,48 @@ npm run start:rest
 Post a signature:
 
 ```bash
-npm run generate:token auth 1
+APP_SECRET="" npm run generate:token auth 611e7cef5f40de69f0b9f5b6
 curl \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Authorization: JWTXXX" \
-    -d '{"hash":"0xXXX","signature":"0xXXX"}' \
-    http://localhost:4445/contracts/1/sign/provider
+    -d '{signature":\"0x..."}' \
+    http://localhost:4445/contracts/611e7cef5f40de69f0b9f5b6/sign/provider
 ```
 
-Verify a contract (id: 1):
+Verify a contract (id: 611e7cef5f40de69f0b9f5b6):
 
 ```bash
 curl \
     -X GET \
     -H "Content-Type: application/json" \
-    http://localhost:4445/contracts/1/verify
+    http://localhost:4445/contracts/611e7cef5f40de69f0b9f5b6/verify
 ```
 
 Revoke an existing contract:
 
 ```bash
-npm run generate:token revoke 1
+npm run generate:token revoke 611e7cef5f40de69f0b9f5b6
 curl \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Authorization: JWTXXX" \
-    http://localhost:4445/contracts/1/revoke
+    http://localhost:4445/contracts/611e7cef5f40de69f0b9f5b6/revoke
+
+    
+### Initializing the contract
+
+First deploy a new NFT contract.
+
+TODO!!!!!
+
+Create a document in the `metadata` collection, holding the last last contract emitter nonce number. See the example below:
+
+```mongo
+db.metadata.insert([{
+	"name" : "wallet-address-nonce",
+	"value" : 0, // initial nonce for a fresh contract
+}])
 ```
 
 ## Deployment
@@ -72,7 +87,8 @@ curl \
 If everything is properly set up, we should be able to deploy lambda functions by running the commands below:
 
 ```sh
-$ MONGO_URL="..." MONGO_DB="" npm run upgrade
+$ nvm use 14
+$ npm i
 $ npm run build
 $ npm run deploy -- --stage test
 ```
