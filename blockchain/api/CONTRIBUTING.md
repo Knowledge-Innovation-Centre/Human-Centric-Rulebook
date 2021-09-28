@@ -38,13 +38,13 @@ npm run start:rest
 Post a signature:
 
 ```bash
-APP_SECRET="" npm run generate:token auth 611e7cef5f40de69f0b9f5b6
+APP_SECRET="" npm run generate:token $WALLET $CONTRACT_ID
 curl \
     -X POST \
     -H "Content-Type: application/json" \
-    -H "Authorization: JWTXXX" \
-    -d '{signature":\"0x..."}' \
-    http://localhost:4445/contracts/611e7cef5f40de69f0b9f5b6/sign/provider
+    -H "Authorization: $JWT" \
+    -d '{"hash": "0x...","signature":"0x..."}' \
+    http://localhost:4445/contracts/611e7cef5f40de69f0b9f5b6/sign/{provider|client}
 ```
 
 Verify a contract (id: 611e7cef5f40de69f0b9f5b6):
@@ -59,21 +59,19 @@ curl \
 Revoke an existing contract:
 
 ```bash
-npm run generate:token revoke 611e7cef5f40de69f0b9f5b6
+APP_SECRET="" npm run generate:revoke-token $CONTRACT_ID
 curl \
     -X POST \
     -H "Content-Type: application/json" \
-    -H "Authorization: JWTXXX" \
+    -H "Authorization: $JWT" \
     http://localhost:4445/contracts/611e7cef5f40de69f0b9f5b6/revoke
+```
 
-    
 ### Initializing the contract
 
 First deploy a new NFT contract.
 
-TODO!!!!!
-
-Create a document in the `metadata` collection, holding the last last contract emitter nonce number. See the example below:
+Next, create a document in the `metadata` collection, holding the last last contract emitter nonce number. See the example below:
 
 ```mongo
 db.metadata.insert([{

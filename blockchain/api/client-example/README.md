@@ -12,7 +12,7 @@ Start the HTTP server from this directory.
 $ serve .
 ```
 
-Open a web browser and navigate to `http://localhostL8080`. This should display
+Open a web browser and navigate to `http://localhost:8080`. This should display
 the `index.html` file.
 
 Make sure you have MetaMask plugin installed, then try signing a message by

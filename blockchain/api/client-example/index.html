@@ -14,16 +14,17 @@
         const account = (await web3.eth.getAccounts())[0];
         const input = $('#input').val();
         const data = web3.utils.sha3(input);
-        console.log('hash:', data);
         const signature = await web3.eth.sign(data, account);
         console.log('signature:', signature);
-        $('#console').text('Done');
+        console.log('hash:', data);
+        console.log('wallet:', account);
+        $('#console').text(`See results in the console!`);
       } else {
-        $('#console').text("Metamask not detected");
+        $('#console').text("Metamask not detected!");
       }
     }
   </script>
-  <input type="text" id="input">
+  <input type="text" placeholder="Contract data (e.g. JSON)" id="input" style="width: 250px" />
   <p id="console"></p>
   <button onclick="eth_sign()">Eth signature</button>
   
